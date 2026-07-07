@@ -1,0 +1,140 @@
+media:
+  input: public/assets
+  output: /assets
+
+content:
+  - name: settings
+    label: Site Settings
+    type: file
+    path: src/content/settings/site.json
+    fields:
+      - { name: accent, label: Brand accent, type: select, options: { values: ["#2E6417", "#0025CC", "#7FBF4D"] } }
+      - { name: glow, label: Mouse glow intensity (0-1), type: number }
+      - { name: showCoords, label: Show floating coordinates, type: boolean }
+      - { name: cardHoverStyle, label: Service card hover style, type: select, options: { values: [Glow, Border trace, Stroke draw, Spotlight] } }
+      - { name: mapStyle, label: Map style, type: select, options: { values: [Streets, Minimal, Terrain] } }
+      - { name: cardCover, label: Project card cover, type: select, options: { values: [Gradient, Contour, Mono] } }
+      - { name: email, label: Email, type: string }
+      - { name: phone, label: Phone, type: string }
+      - { name: whatsapp, label: WhatsApp link, type: string }
+      - { name: address, label: Address, type: string }
+      - { name: heroEyebrow, label: Hero eyebrow, type: string }
+      - { name: heroHeadlinePlain, label: Hero headline (plain part), type: string }
+      - { name: heroHeadlineGradient, label: Hero headline (gradient part), type: string }
+      - { name: heroLead, label: Hero lead paragraph, type: text }
+      - name: stats
+        label: Hero stats
+        type: object
+        list: true
+        fields:
+          - { name: value, label: Value, type: number }
+          - { name: suffix, label: Suffix, type: string }
+          - { name: label, label: Label, type: string }
+      - { name: rtkAccuracy, label: RTK accuracy value, type: string }
+      - { name: rtkUnit, label: RTK accuracy unit, type: string }
+      - { name: rtkLabel, label: RTK accuracy label, type: string }
+      - { name: missionText, label: Mission, type: text }
+      - { name: visionText, label: Vision, type: text }
+      - name: values
+        label: Core values
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Title, type: string }
+          - { name: description, label: Description, type: string }
+      - { name: techStack, label: Technology stack, type: string, list: true }
+      - name: processSteps
+        label: How We Work steps (Services page)
+        type: object
+        list: true
+        fields:
+          - { name: step, label: "Step label (e.g. 01 · BRIEF)", type: string }
+          - { name: title, label: Title, type: string }
+          - { name: description, label: Description, type: text }
+      - name: journey
+        label: Journey timeline (About page)
+        type: object
+        list: true
+        fields:
+          - { name: label, label: "Label (e.g. FOUNDED)", type: string }
+          - { name: title, label: Title, type: string }
+          - { name: description, label: Description, type: text }
+      - { name: aboutStory1, label: "About story, paragraph 1", type: text }
+      - { name: aboutStory2, label: "About story, paragraph 2", type: text }
+      - { name: ctaBadge, label: CTA badge text, type: string }
+      - { name: ctaHeadlinePlain, label: CTA headline (plain part), type: string }
+      - { name: ctaHeadlineGradient, label: CTA headline (gradient part), type: string }
+      - { name: ctaSubcopy, label: CTA subcopy, type: text }
+      - { name: footerBlurb, label: Footer blurb, type: text }
+
+  - name: services
+    label: Services
+    type: collection
+    path: src/content/services
+    view:
+      fields: [title, number]
+      sort: [order]
+    fields:
+      - { name: number, label: Number, type: string }
+      - { name: title, label: Title, type: string }
+      - { name: description, label: Description (Home card), type: text }
+      - { name: tagline, label: Tagline (Services page card), type: string }
+      - { name: items, label: Capability bullets (Services page), type: string, list: true }
+      - { name: icon, label: Icon, type: select, options: { values: [land-survey, construction, urban-planning, interior-design, landscaping, real-estate] } }
+      - { name: order, label: Order, type: number }
+
+  - name: projects
+    label: Projects
+    type: collection
+    path: src/content/projects
+    view:
+      fields: [title, category, location]
+      sort: [order]
+    fields:
+      - { name: title, label: Title, type: string }
+      - { name: category, label: Category, type: select, options: { values: [Survey, Construction, GIS, Planning, Interior, Landscape] } }
+      - { name: location, label: "Location line (e.g. KIAMBU · -1.171, 36.836)", type: string }
+      - { name: lat, label: Latitude, type: number }
+      - { name: lng, label: Longitude, type: number }
+      - { name: description, label: Description, type: text }
+      - { name: order, label: Order, type: number }
+
+  - name: faqs
+    label: FAQs
+    type: collection
+    path: src/content/faqs
+    view:
+      fields: [question]
+      sort: [order]
+    fields:
+      - { name: question, label: Question, type: string }
+      - { name: answer, label: Answer, type: text }
+      - { name: order, label: Order, type: number }
+
+  - name: team
+    label: Team
+    type: collection
+    path: src/content/team
+    view:
+      fields: [name, role]
+      sort: [order]
+    fields:
+      - { name: name, label: Name, type: string }
+      - { name: role, label: Role, type: string }
+      - { name: photo, label: Photo, type: image }
+      - { name: bio, label: Bio, type: text }
+      - { name: tags, label: Skill tags, type: string, list: true }
+      - { name: order, label: Order, type: number }
+
+  - name: testimonials
+    label: Testimonials
+    type: collection
+    path: src/content/testimonials
+    view:
+      fields: [name, subtitle]
+      sort: [order]
+    fields:
+      - { name: quote, label: Quote, type: text }
+      - { name: name, label: Attribution, type: string }
+      - { name: subtitle, label: Subtitle, type: string }
+      - { name: order, label: Order, type: number }
