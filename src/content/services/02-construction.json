@@ -1,0 +1,15 @@
+{
+  "number": "02",
+  "title": "Construction",
+  "description": "Residential, commercial and affordable housing, roads, bridges and water infrastructure, renewable-energy projects, delivered on time and on budget with sustainable practice.",
+  "icon": "construction",
+  "order": 2,
+  "tagline": "Sustainable builds delivered on time and on budget.",
+  "items": [
+    "Residential & commercial buildings",
+    "Affordable housing",
+    "Roads & bridges",
+    "Water & sanitation infrastructure",
+    "Renewable-energy projects"
+  ]
+}

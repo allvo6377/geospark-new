@@ -1,0 +1,14 @@
+{
+  "number": "06",
+  "title": "Real Estate Management",
+  "description": "Property consulting, feasibility studies and valuations, tenant and lease management, and asset optimisation for residential, commercial and industrial portfolios.",
+  "icon": "real-estate",
+  "order": 6,
+  "tagline": "Asset value protected and grown.",
+  "items": [
+    "Property consulting",
+    "Feasibility studies & valuations",
+    "Tenant & lease management",
+    "Asset optimisation"
+  ]
+}

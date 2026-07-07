@@ -1,0 +1,9 @@
+{
+  "title": "County Road Corridor Mapping",
+  "category": "GIS",
+  "location": "NAKURU · -0.303, 36.080",
+  "lat": -0.303,
+  "lng": 36.08,
+  "description": "Drone-captured GIS basemap for a 12 km road upgrade, delivered in ArcGIS and QGIS.",
+  "order": 2
+}

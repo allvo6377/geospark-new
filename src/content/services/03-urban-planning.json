@@ -1,0 +1,15 @@
+{
+  "number": "03",
+  "title": "Urban Planning",
+  "description": "Land-use planning, urban design, EIAs, county planning support, transportation planning and slum upgrading. Smart land use for Kenya's growing towns and cities.",
+  "icon": "urban-planning",
+  "order": 3,
+  "tagline": "Smart land use for Kenya's growing towns and cities.",
+  "items": [
+    "Land-use planning & urban design",
+    "Environmental impact assessments",
+    "County planning support",
+    "Transportation planning",
+    "Slum upgrading programmes"
+  ]
+}

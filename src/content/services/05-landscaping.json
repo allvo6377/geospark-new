@@ -1,0 +1,14 @@
+{
+  "number": "05",
+  "title": "Landscaping",
+  "description": "Garden design, hardscaping, water-efficient irrigation systems and ongoing maintenance, bringing green, thriving outdoor spaces to homes, offices and public areas.",
+  "icon": "landscaping",
+  "order": 5,
+  "tagline": "Green, thriving outdoor spaces.",
+  "items": [
+    "Garden design",
+    "Hardscaping",
+    "Water-efficient irrigation",
+    "Ongoing maintenance"
+  ]
+}

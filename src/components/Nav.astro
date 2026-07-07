@@ -1,0 +1,86 @@
+---
+import { withBase } from '../lib/url';
+
+interface Props {
+  active: 'Home' | 'Services' | 'Projects' | 'About' | 'Contact';
+  showCta?: boolean;
+}
+
+const { active, showCta = true } = Astro.props;
+
+// On Home, Team scrolls to the home team section; elsewhere it routes to About's.
+const teamHref = active === 'Home' ? '#team' : withBase('/about#team');
+const links = [
+  { label: 'Home', href: withBase('/') },
+  { label: 'Services', href: withBase('/services') },
+  { label: 'Projects', href: withBase('/projects') },
+  { label: 'About', href: withBase('/about') },
+  { label: 'Team', href: teamHref },
+  { label: 'Contact', href: withBase('/contact') },
+];
+---
+
+<style>
+  #gs-theme-toggle:hover { border-color: var(--accent); }
+  .gs-navcta:hover { box-shadow: 0 10px 28px -6px rgba(46, 100, 23, 0.65); }
+  #gs-mobile-menu a:hover { background: var(--surface); }
+</style>
+
+<nav
+  id="gs-nav"
+  style="position:fixed;top:14px;left:0;right:0;margin:0 auto;box-sizing:border-box;z-index:1100;width:calc(100% - 28px);max-width:1180px;display:flex;align-items:center;justify-content:space-between;padding:9px 12px 9px 22px;border-radius:999px;background:var(--surface);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);box-shadow:0 8px 24px -14px rgba(20,29,18,0.22);transition:box-shadow .35s ease,background .35s ease,border-color .35s ease"
+>
+  <a href={withBase('/')} style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)">
+    <svg width="36" height="36" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <defs><linearGradient id="gsMarkNav" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#2E6417"></stop><stop offset="1" stop-color="#0025CC"></stop></linearGradient></defs>
+      <path d="M60 26 A30 30 0 1 0 60 86" stroke="url(#gsMarkNav)" stroke-width="19"></path>
+      <rect x="55" y="2" width="13" height="15" fill="#2E6417"></rect>
+      <rect x="72" y="10" width="15" height="28" fill="#2E6417"></rect>
+      <rect x="57" y="88" width="13" height="12" fill="#0025CC"></rect>
+    </svg>
+    <span style="display:flex;flex-direction:column;line-height:1.05">
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.02em;color:var(--accent)">GeoSpark</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:0.22em;color:var(--muted);text-transform:uppercase">Onestop Solution</span>
+    </span>
+  </a>
+
+  <div class="gs-navlinks" style="display:flex;align-items:center;gap:24px;font-size:14px;font-weight:500">
+    {links.map((l) => (
+      <a href={l.href} class={`gs-link${l.label === active ? ' gs-active' : ''}`}>{l.label}</a>
+    ))}
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px">
+    <button
+      id="gs-theme-toggle"
+      aria-label="Toggle theme"
+      style="width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(12px);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center"
+    >
+      <span data-theme-icon="sun" style="display:none;align-items:center;justify-content:center">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+      </span>
+      <span data-theme-icon="moon" style="display:flex;align-items:center;justify-content:center">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+      </span>
+    </button>
+
+    {showCta && (
+      <a
+        href={withBase('/contact')}
+        data-magnetic="1"
+        class="gs-navcta"
+        style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:999px;background:linear-gradient(120deg,var(--accent),var(--emerald));color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;box-shadow:0 6px 20px -6px rgba(46,100,23,0.5);transition:box-shadow .3s ease"
+      >Request Proposal</a>
+    )}
+
+    <button id="gs-burger" aria-label="Menu" class="gs-burger" style="display:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(12px);color:var(--ink);cursor:pointer;align-items:center;justify-content:center">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+    </button>
+  </div>
+
+  <div id="gs-mobile-menu" style="display:none;position:fixed;top:80px;left:12px;right:12px;z-index:60;background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:18px;padding:10px;flex-direction:column;box-shadow:0 24px 60px -20px rgba(0,0,0,0.35)">
+    {links.map((l) => (
+      <a href={l.href} style={`padding:13px 16px;border-radius:12px;color:var(--ink);text-decoration:none;font-size:15px;font-weight:500${l.label === active ? ';background:var(--surface)' : ''}`}>{l.label}</a>
+    ))}
+  </div>
+</nav>

@@ -1,0 +1,52 @@
+{
+  "accent": "#2E6417",
+  "glow": 0.55,
+  "showCoords": true,
+  "cardHoverStyle": "Glow",
+  "email": "hello@geospark.co.ke",
+  "phone": "+254 704 453 850",
+  "whatsapp": "https://wa.me/254704453850",
+  "address": "Nairobi, Kenya",
+  "heroEyebrow": "Licensed land surveyors & built-environment specialists · Nairobi, Kenya",
+  "heroHeadlinePlain": "Innovation meets",
+  "heroHeadlineGradient": "Kenya's future.",
+  "heroLead": "GeoSpark Onestop Solution is an integrated practice spanning land survey, construction, urban planning, interior design, landscaping and real-estate management, from precision geospatial data to finished, sustainable spaces.",
+  "stats": [
+    { "value": 120, "suffix": "+", "label": "Projects delivered" },
+    { "value": 15, "suffix": "", "label": "Counties served" },
+    { "value": 98, "suffix": "%", "label": "On-time delivery" }
+  ],
+  "rtkAccuracy": "±8",
+  "rtkUnit": "mm",
+  "rtkLabel": "RTK accuracy",
+  "missionText": "To shape Kenya's future with sustainable, innovative solutions in infrastructure, spaces and communities.",
+  "visionText": "To be Kenya's leading partner in building smart, green and resilient spaces.",
+  "values": [
+    { "title": "Innovation", "description": "Pushing boundaries for better solutions." },
+    { "title": "Sustainability", "description": "Building for Kenya's tomorrow." },
+    { "title": "Integrity", "description": "Transparent, ethical delivery." },
+    { "title": "Collaboration", "description": "Partnering for growth." }
+  ],
+  "techStack": ["GNSS", "RTK", "GIS", "Remote Sensing", "LiDAR", "Drone Mapping", "AutoCAD", "ArcGIS", "QGIS", "DroneDeploy"],
+  "mapStyle": "Streets",
+  "cardCover": "Gradient",
+  "processSteps": [
+    { "step": "01 · BRIEF", "title": "Scope & site visit", "description": "We listen, walk the site and define deliverables, timeline and cost, with no obligation." },
+    { "step": "02 · DATA", "title": "Survey & analysis", "description": "RTK GNSS, drone capture and GIS analysis establish the ground truth everything else builds on." },
+    { "step": "03 · DELIVER", "title": "Design & build", "description": "Plans, approvals and construction run under one accountable team with weekly reporting." },
+    { "step": "04 · SUPPORT", "title": "Handover & care", "description": "Documentation, titles and ongoing management or maintenance where you need it." }
+  ],
+  "journey": [
+    { "label": "FOUNDED", "title": "Two surveyors, one banker", "description": "GeoSpark Onestop Solution is registered in Nairobi with a field-first survey practice." },
+    { "label": "EXPANSION", "title": "Six service lines", "description": "Construction, planning, interiors, landscaping and property management join the survey core." },
+    { "label": "TODAY", "title": "Drone & GIS at scale", "description": "UAV mapping, RTK GNSS and GIS analysis serving counties, developers and landowners." },
+    { "label": "VISION", "title": "Kenya's leading partner", "description": "Smart, green, resilient spaces, nationwide." }
+  ],
+  "aboutStory1": "GeoSpark began in the field: two surveying graduates of the Technical University of Kenya watching projects stall between the surveyor, the planner, the contractor and the financier. The answer was a single accountable practice.",
+  "aboutStory2": "Today GeoSpark spans land survey and geospatial services, construction, urban planning, interior design, landscaping and real-estate management, with one team from the first coordinate to the finished, sustainable space.",
+  "ctaBadge": "Booking new projects",
+  "ctaHeadlinePlain": "Let's build something",
+  "ctaHeadlineGradient": "extraordinary.",
+  "ctaSubcopy": "From a single boundary survey to a full development, tell us about your project and we'll respond within one working day.",
+  "footerBlurb": "Licensed land surveyors and built-environment specialists. Turning ground truth into buildable, bankable, titled land across Kenya."
+}

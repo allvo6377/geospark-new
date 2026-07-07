@@ -1,0 +1,15 @@
+{
+  "number": "04",
+  "title": "Interior Design",
+  "description": "Space planning, design consultancy, custom furniture and fittings, sustainable materials and full project management. Style meets practicality for homes and offices.",
+  "icon": "interior-design",
+  "order": 4,
+  "tagline": "Style meets practicality for homes and offices.",
+  "items": [
+    "Space planning",
+    "Design consultancy",
+    "Custom furniture & fittings",
+    "Sustainable materials",
+    "Full project management"
+  ]
+}

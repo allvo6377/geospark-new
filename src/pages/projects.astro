@@ -1,0 +1,222 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Footer from '../components/Footer.astro';
+import { getEntry, getCollection } from 'astro:content';
+
+const settings = (await getEntry('settings', 'site')).data;
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+
+const categories = ['All', 'Survey', 'Construction', 'GIS', 'Planning', 'Interior', 'Landscape'];
+
+const gradients: Record<string, string> = {
+  Survey: 'linear-gradient(135deg,#2E6417,#4a8f2a)',
+  GIS: 'linear-gradient(135deg,#0025CC,#3a5fe0)',
+  Construction: 'linear-gradient(135deg,#3a4a2a,#2E6417)',
+  Planning: 'linear-gradient(135deg,#1a3a8a,#0025CC)',
+  Interior: 'linear-gradient(135deg,#5a6b3a,#2E6417)',
+  Landscape: 'linear-gradient(135deg,#2E6417,#7FBF4D)',
+};
+
+function coverFor(cat: string): string {
+  const grad = gradients[cat] ?? gradients.Survey;
+  if (settings.cardCover === 'Mono') return 'linear-gradient(155deg,#2E6417,#7FBF4D)';
+  if (settings.cardCover === 'Contour') {
+    return 'repeating-linear-gradient(118deg, rgba(255,255,255,0.16) 0 1px, transparent 1px 14px),' + grad;
+  }
+  return grad;
+}
+
+const mapData = projects.map((p) => ({
+  title: p.data.title,
+  cat: p.data.category,
+  lat: p.data.lat,
+  lng: p.data.lng,
+  place: p.data.location.split(' · ')[0],
+}));
+---
+
+<Layout title="Projects | GeoSpark Onestop Solution" description="A selection of GeoSpark's survey, GIS, construction, planning, interior and landscape work across Kenya." active="Projects">
+  <link slot="head" rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script slot="head" is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- HERO -->
+  <header style="position:relative;padding:150px clamp(20px,4vw,56px) 40px;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:0.5;mask-image:radial-gradient(ellipse 90% 80% at 50% 20%,black 30%,transparent 75%)"></div>
+    <div style="position:absolute;inset:-8%;animation:gsDrift 26s ease-in-out infinite">
+      <svg width="100%" height="100%" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+        <g stroke="var(--accent)" opacity="0.13">
+          <path d="M180,120 C320,60 520,90 600,180 C680,270 640,380 520,420 C400,460 240,430 180,330 C120,230 100,170 180,120 Z" stroke-width="1.2"></path>
+          <path d="M220,150 C330,100 490,125 555,195 C620,265 590,350 495,383 C400,416 275,392 225,312 C175,232 160,190 220,150 Z" stroke-width="1"></path>
+          <path d="M260,180 C340,140 460,160 510,212 C560,264 540,322 470,347 C400,372 310,353 272,295 C234,237 225,210 260,180 Z" stroke-width="0.9"></path>
+        </g>
+        <g stroke="var(--emerald)" opacity="0.1">
+          <path d="M820,300 C940,240 1080,270 1130,350 C1180,430 1130,520 1010,545 C890,570 780,525 755,445 C730,365 745,340 820,300 Z" stroke-width="1"></path>
+          <path d="M850,335 C950,285 1055,308 1092,368 C1129,428 1096,490 1010,508 C924,526 846,492 828,432 C810,372 820,355 850,335 Z" stroke-width="0.9"></path>
+        </g>
+      </svg>
+    </div>
+    <div style="position:absolute;top:-15%;right:-6%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(46,100,23,0.12),transparent 65%);animation:gsDrift2 20s ease-in-out infinite"></div>
+    <div style="position:absolute;bottom:-30%;left:-8%;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(0,37,204,0.09),transparent 65%);animation:gsDrift2 24s ease-in-out infinite reverse"></div>
+    {settings.showCoords && (
+      <div class="gs-coords" style="position:absolute;inset:0;pointer-events:none;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;color:var(--muted);opacity:0.65">
+        <div style="position:absolute;top:24%;left:6%;display:flex;align-items:center;gap:8px;animation:gsFloat 7s ease-in-out infinite"><span style="width:6px;height:6px;border-radius:1.5px;background:var(--accent);animation:gsPulse 3s infinite"></span>8 SITES &middot; MAPPED</div>
+        <div style="position:absolute;top:32%;right:7%;animation:gsFloat 9s ease-in-out infinite 1s">GRID &middot; UTM ZONE 37S</div>
+        <div style="position:absolute;bottom:24%;left:8%;animation:gsFloat 8s ease-in-out infinite 2s">RTK FIX &middot; &plusmn;8 MM <span style="animation:gsBlink 1.6s infinite">&#9646;</span></div>
+        <div style="position:absolute;bottom:18%;right:9%;display:flex;align-items:center;gap:8px;animation:gsFloat 10s ease-in-out infinite .5s"><span style="width:6px;height:6px;border-radius:1.5px;background:var(--emerald)"></span>-0.09&deg; &middot; 34.77&deg; KISUMU</div>
+      </div>
+    )}
+    <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto">
+      <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--emerald);text-transform:uppercase;margin-bottom:18px">Projects</div>
+      <h1 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5.6vw,72px);line-height:1.04;letter-spacing:-0.035em;font-weight:700;margin:0 0 18px;max-width:18ch">Surveyed, planned and <span style="background:linear-gradient(95deg,var(--accent),var(--emerald));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">built across Kenya.</span></h1>
+      <p data-reveal="120" style="font-size:clamp(16px,1.6vw,18.5px);line-height:1.65;color:var(--muted);max-width:56ch;margin:0">A selection of our work. Filter by service or explore live on the map.</p>
+    </div>
+  </header>
+
+  <!-- MAP -->
+  <section style="padding:16px clamp(20px,4vw,56px) 8px;max-width:1180px;margin:0 auto">
+    <div data-reveal="0" id="gs-map" style="height:380px;border-radius:24px;border:1px solid var(--line);overflow:hidden;position:relative;z-index:1"></div>
+  </section>
+
+  <!-- FILTERS -->
+  <section id="work" style="padding:28px clamp(20px,4vw,56px) 8px;max-width:1290px;margin:0 auto">
+    <div id="gs-filters" style="display:flex;flex-wrap:wrap;gap:10px">
+      {categories.map((c, i) => (
+        <button
+          class="gs-filter"
+          data-cat={c}
+          style={`padding:9px 18px;border-radius:999px;border:1px solid ${i === 0 ? 'var(--accent)' : 'var(--line)'};background:${i === 0 ? 'var(--accent)' : 'var(--surface)'};color:${i === 0 ? '#fff' : 'var(--muted)'};font-family:'Instrument Sans',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer`}
+        >{c}</button>
+      ))}
+    </div>
+  </section>
+
+  <!-- CARDS (uniform grid) -->
+  <section style="padding:28px clamp(20px,4vw,56px) 80px;max-width:1290px;margin:0 auto">
+    <div id="gs-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px">
+      {projects.map((p) => (
+        <div class="gs-card" data-cat={p.data.category} style="position:relative;display:flex;flex-direction:column;height:340px;background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;overflow:hidden">
+          <div style={`height:150px;flex:0 0 auto;background:${coverFor(p.data.category)};position:relative;display:flex;align-items:flex-end;padding:16px`}>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;color:#fff;background:rgba(0,0,0,0.28);padding:5px 10px;border-radius:999px;text-transform:uppercase">{p.data.category}</span>
+          </div>
+          <div style="padding:22px;display:flex;flex-direction:column;flex:1 1 auto">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;margin:0 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{p.data.title}</h3>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{p.data.location}</div>
+            <p style="font-size:13.5px;line-height:1.6;color:var(--muted);margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{p.data.description}</p>
+          </div>
+          <div class="gs-skel" aria-hidden="true">
+            <div style="height:150px;flex:0 0 auto;background:var(--line);display:flex;align-items:center;justify-content:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:var(--muted)">FETCHING TILE <span style="animation:gsBlink 1.2s infinite">&#9646;</span></div>
+            <div style="padding:22px;display:flex;flex-direction:column;gap:11px">
+              <div class="gs-skel-bar" style="height:17px;width:72%"></div>
+              <div class="gs-skel-bar" style="height:11px;width:46%"></div>
+              <div class="gs-skel-bar" style="height:11px;width:100%;margin-top:6px"></div>
+              <div class="gs-skel-bar" style="height:11px;width:92%"></div>
+              <div class="gs-skel-bar" style="height:11px;width:58%"></div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <CtaBanner />
+  <Footer />
+
+  <script is:inline define:vars={{ mapData, mapStyle: settings.mapStyle }}>
+    (function () {
+      var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // --- skeleton lazy-load stagger ---
+      var cardIO = null;
+      function staggerCards() {
+        var cards = Array.prototype.slice.call(document.querySelectorAll('.gs-card')).filter(function (c) {
+          return c.style.display !== 'none';
+        });
+        if (reduced) {
+          cards.forEach(function (c) { c.classList.add('gs-loaded'); });
+          return;
+        }
+        if (cardIO) cardIO.disconnect();
+        cardIO = new IntersectionObserver(function (entries) {
+          var batch = entries.filter(function (e) { return e.isIntersecting; });
+          batch.forEach(function (e, k) {
+            cardIO.unobserve(e.target);
+            e.target.animate(
+              [{ opacity: 0, transform: 'translateY(28px) scale(.985)' }, { opacity: 1, transform: 'none' }],
+              { duration: 480, delay: k * 70, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' }
+            );
+            setTimeout(function () {
+              e.target.classList.add('gs-loaded');
+              e.target.animate(
+                [{ transform: 'translateY(8px)' }, { transform: 'none' }],
+                { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)' }
+              );
+            }, 420 + k * 170);
+          });
+        }, { threshold: 0.12 });
+        cards.forEach(function (c) { cardIO.observe(c); });
+      }
+
+      // --- Leaflet map with pulsing pixel-square markers ---
+      var map = null;
+      var markers = [];
+      function tileFor(style) {
+        var t = {
+          Streets: { url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', attr: '&copy; OpenStreetMap contributors' },
+          Minimal: { url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', attr: '&copy; OpenStreetMap &copy; CARTO', sub: 'abcd' },
+          Terrain: { url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', attr: '&copy; OpenTopoMap (CC-BY-SA)', sub: 'abc' },
+        };
+        return t[style] || t.Streets;
+      }
+      function initMap(attempt) {
+        attempt = attempt || 0;
+        var el = document.getElementById('gs-map');
+        if (!el) return;
+        if (typeof L === 'undefined') {
+          if (attempt < 40) setTimeout(function () { initMap(attempt + 1); }, 250);
+          return;
+        }
+        if (map) return;
+        map = L.map(el, { scrollWheelZoom: false }).setView([-0.6, 37.2], 6);
+        var cfg = tileFor(mapStyle);
+        var opts = { attribution: cfg.attr, maxZoom: mapStyle === 'Terrain' ? 17 : 19 };
+        if (cfg.sub) opts.subdomains = cfg.sub;
+        L.tileLayer(cfg.url, opts).addTo(map);
+        var icon = L.divIcon({ className: '', html: '<div class="gs-mk"><b></b><i></i></div>', iconSize: [14, 14], iconAnchor: [7, 7] });
+        markers = mapData.map(function (p) {
+          var marker = L.marker([p.lat, p.lng], { icon })
+            .bindPopup('<strong>' + p.title + '</strong><br>' + p.cat + ' · ' + p.place);
+          marker.addTo(map);
+          return { cat: p.cat, marker: marker };
+        });
+      }
+
+      // --- filter chips: cards + markers sync, replay skeleton ---
+      var buttons = Array.prototype.slice.call(document.querySelectorAll('#gs-filters .gs-filter'));
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var cat = btn.dataset.cat;
+          buttons.forEach(function (b) {
+            var on = b === btn;
+            b.style.background = on ? 'var(--accent)' : 'var(--surface)';
+            b.style.color = on ? '#fff' : 'var(--muted)';
+            b.style.borderColor = on ? 'var(--accent)' : 'var(--line)';
+          });
+          document.querySelectorAll('.gs-card').forEach(function (card) {
+            var show = cat === 'All' || card.dataset.cat === cat;
+            card.style.display = show ? 'flex' : 'none';
+            card.classList.remove('gs-loaded');
+          });
+          markers.forEach(function (m) {
+            var show = cat === 'All' || m.cat === cat;
+            if (show) m.marker.addTo(map); else map.removeLayer(m.marker);
+          });
+          setTimeout(staggerCards, 120);
+        });
+      });
+
+      staggerCards();
+      initMap();
+    })();
+  </script>
+</Layout>

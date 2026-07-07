@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Footer from '../components/Footer.astro';
+import { getEntry, getCollection } from 'astro:content';
+import { withBase } from '../lib/url';
+
+const settings = (await getEntry('settings', 'site')).data;
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout title="Services | GeoSpark Onestop Solution" description="Land survey, construction, urban planning, interior design, landscaping and real-estate management. Six service lines, one accountable team." active="Services">
+  <!-- HERO -->
+  <header style="position:relative;min-height:60vh;display:flex;flex-direction:column;justify-content:flex-end;padding:160px clamp(20px,4vw,56px) 64px;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:0.5;mask-image:radial-gradient(ellipse 90% 80% at 50% 30%,black 30%,transparent 75%)"></div>
+    <div style="position:absolute;inset:-8%;animation:gsDrift 26s ease-in-out infinite">
+      <svg width="100%" height="100%" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+        <g stroke="var(--accent)" opacity="0.14">
+          <path d="M180,120 C320,60 520,90 600,180 C680,270 640,380 520,420 C400,460 240,430 180,330 C120,230 100,170 180,120 Z" stroke-width="1.2"></path>
+          <path d="M220,150 C330,100 490,125 555,195 C620,265 590,350 495,383 C400,416 275,392 225,312 C175,232 160,190 220,150 Z" stroke-width="1"></path>
+          <path d="M760,430 C900,360 1080,400 1140,510 C1200,620 1140,730 990,760 C840,790 700,730 670,620 C640,510 660,480 760,430 Z" stroke-width="1.2"></path>
+          <path d="M790,470 C900,415 1040,445 1090,530 C1140,615 1095,700 980,725 C865,750 755,703 730,617 C705,531 715,507 790,470 Z" stroke-width="1"></path>
+        </g>
+      </svg>
+    </div>
+    <div style="position:absolute;top:-15%;right:-8%;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(46,100,23,0.14),transparent 65%);animation:gsDrift2 20s ease-in-out infinite"></div>
+    <div style="position:absolute;bottom:-24%;left:-10%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(0,37,204,0.1),transparent 65%);animation:gsDrift2 24s ease-in-out infinite reverse"></div>
+    {settings.showCoords && (
+      <div class="gs-coords" style="position:absolute;inset:0;pointer-events:none;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;color:var(--muted);opacity:0.65">
+        <div style="position:absolute;top:22%;left:6%;display:flex;align-items:center;gap:8px;animation:gsFloat 7s ease-in-out infinite"><span style="width:6px;height:6px;border-radius:1.5px;background:var(--accent);animation:gsPulse 3s infinite"></span>-1.2921&deg; &middot; 36.8219&deg; NAIROBI</div>
+        <div style="position:absolute;top:30%;right:7%;animation:gsFloat 9s ease-in-out infinite 1s">6 SERVICE LINES</div>
+        <div style="position:absolute;bottom:30%;left:8%;animation:gsFloat 8s ease-in-out infinite 2s">FIELD &rarr; FINISH <span style="animation:gsBlink 1.6s infinite">&#9646;</span></div>
+        <div style="position:absolute;bottom:22%;right:9%;display:flex;align-items:center;gap:8px;animation:gsFloat 10s ease-in-out infinite .5s"><span style="width:6px;height:6px;border-radius:1.5px;background:var(--emerald)"></span>UTM ZONE 37S</div>
+      </div>
+    )}
+    <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto;width:100%">
+      <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--emerald);text-transform:uppercase;margin-bottom:18px">Services</div>
+      <h1 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(38px,6vw,80px);line-height:1.04;letter-spacing:-0.035em;font-weight:700;margin:0 0 22px;max-width:18ch">Integrated spatial &amp; <span style="background:linear-gradient(95deg,var(--accent),var(--emerald));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">infrastructure solutions.</span></h1>
+      <p data-reveal="120" style="font-size:clamp(16px,1.6vw,19px);line-height:1.65;color:var(--muted);max-width:58ch;margin:0">Six service lines, one accountable team. Every capability below is delivered in-house, from the first coordinate to ongoing property management.</p>
+    </div>
+  </header>
+
+  <!-- SERVICE LINES -->
+  <section id="lines" style="padding:80px clamp(20px,4vw,56px) 40px;max-width:1290px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px">
+    {services.map((svc) => (
+      <div data-reveal="0" class="gs-svcline" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+          <span class="gs-dot" style="width:10px;height:10px;border-radius:2.5px;background:var(--accent);margin-top:6px"></span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">{svc.data.number}</span>
+        </div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;letter-spacing:-0.015em;margin:0 0 8px">{svc.data.title}</h2>
+        <p style="font-size:14px;line-height:1.6;color:var(--muted);margin:0 0 18px">{svc.data.tagline}</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:22px">
+          {svc.data.items.map((item) => (
+            <div style="display:flex;align-items:baseline;gap:10px;font-size:13.5px;color:var(--ink)"><span style="width:5px;height:5px;border-radius:1.5px;background:var(--emerald);flex-shrink:0"></span>{item}</div>
+          ))}
+        </div>
+        <a href={withBase('/contact')} class="gs-arrow" style="font-size:13.5px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px;text-decoration:none">Enquire <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+      </div>
+    ))}
+  </section>
+
+  <!-- PROCESS -->
+  <section style="position:relative;padding:90px clamp(20px,4vw,56px);overflow:hidden;margin-top:40px">
+    <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(46,100,23,0.06),rgba(0,37,204,0.05));border-top:1px solid var(--line);border-bottom:1px solid var(--line)"></div>
+    <div style="position:relative;max-width:1180px;margin:0 auto">
+      <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:16px">How we work</div>
+      <h2 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,3.6vw,46px);letter-spacing:-0.03em;font-weight:700;line-height:1.1;margin:0 0 46px">A straight line from brief to handover.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;border-left:1px solid var(--line)">
+        {settings.processSteps.map((p) => (
+          <div data-reveal="0" class="gs-proc" style="padding:0 26px 8px;border-right:1px solid var(--line)">
+            <div class="gs-proc-num" style="font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:10px">{p.step}</div>
+            <div class="gs-proc-title" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;margin-bottom:8px">{p.title}</div>
+            <p style="font-size:13.5px;color:var(--muted);line-height:1.6;margin:0">{p.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="padding:90px clamp(20px,4vw,56px);max-width:880px;margin:0 auto">
+    <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--emerald);text-transform:uppercase;margin-bottom:16px">FAQ</div>
+    <h2 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,3.6vw,44px);letter-spacing:-0.03em;font-weight:700;line-height:1.1;margin:0 0 40px">Common questions.</h2>
+    <div id="gs-faq" style="display:flex;flex-direction:column;gap:12px">
+      {faqs.map((f) => (
+        <div style="background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:16px;overflow:hidden">
+          <button class="gs-faq-q" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;background:none;border:none;cursor:pointer;color:var(--ink);font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;text-align:left">
+            {f.data.question}
+            <span class="gs-faq-mark" style="font-family:'IBM Plex Mono',monospace;color:var(--accent);flex-shrink:0">+</span>
+          </button>
+          <p class="gs-faq-a" style="display:none;padding:0 24px 20px;margin:0;font-size:14.5px;line-height:1.65;color:var(--muted)">{f.data.answer}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <CtaBanner />
+  <Footer />
+
+  <script is:inline>
+    // FAQ accordion: single-open, +/− marker.
+    (function () {
+      var rows = Array.prototype.slice.call(document.querySelectorAll('#gs-faq .gs-faq-q'));
+      rows.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var answer = btn.parentElement.querySelector('.gs-faq-a');
+          var isOpen = answer.style.display === 'block';
+          rows.forEach(function (other) {
+            other.parentElement.querySelector('.gs-faq-a').style.display = 'none';
+            other.querySelector('.gs-faq-mark').textContent = '+';
+          });
+          if (!isOpen) {
+            answer.style.display = 'block';
+            btn.querySelector('.gs-faq-mark').textContent = '−';
+          }
+        });
+      });
+    })();
+  </script>
+</Layout>

@@ -1,0 +1,16 @@
+{
+  "number": "01",
+  "title": "Land Survey & Geospatial",
+  "description": "Topographic, cadastral, engineering and boundary surveys, GIS analysis, drone/UAV mapping and land valuation. Data-driven decisions for planning, development and titling.",
+  "icon": "land-survey",
+  "order": 1,
+  "tagline": "Precision data for planning, development and titling.",
+  "items": [
+    "Topographic surveys",
+    "Cadastral & boundary surveys",
+    "Engineering surveys",
+    "GIS mapping & analysis",
+    "Drone / UAV mapping",
+    "Land valuation support"
+  ]
+}

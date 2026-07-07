@@ -1,0 +1,135 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Footer from '../components/Footer.astro';
+import { getEntry, getCollection } from 'astro:content';
+import { withBase } from '../lib/url';
+
+const settings = (await getEntry('settings', 'site')).data;
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+
+// First 6 tech chips hover green, the rest blue (matches design).
+const chipFloat = ['7s', '8s', '7.5s', '8.5s', '7s', '8s', '7.5s', '8.5s', '7s', '8s'];
+---
+
+<Layout title="About | GeoSpark Onestop Solution" description="Founded by two licensed land surveyors and an investment banker, GeoSpark brings precision geospatial data, sustainable construction and smart planning under one roof." active="About">
+  <!-- HERO -->
+  <header style="position:relative;min-height:72vh;display:flex;flex-direction:column;justify-content:flex-end;padding:160px clamp(20px,4vw,56px) 72px;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:0.5;mask-image:radial-gradient(ellipse 90% 80% at 50% 30%,black 30%,transparent 75%)"></div>
+    <div style="position:absolute;inset:-8%;animation:gsDrift 26s ease-in-out infinite">
+      <svg width="100%" height="100%" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+        <g stroke="var(--accent)" opacity="0.15">
+          <path d="M180,120 C320,60 520,90 600,180 C680,270 640,380 520,420 C400,460 240,430 180,330 C120,230 100,170 180,120 Z" stroke-width="1.2"></path>
+          <path d="M220,150 C330,100 490,125 555,195 C620,265 590,350 495,383 C400,416 275,392 225,312 C175,232 160,190 220,150 Z" stroke-width="1"></path>
+          <path d="M260,180 C340,140 460,160 510,212 C560,264 540,322 470,347 C400,372 310,353 272,295 C234,237 225,210 260,180 Z" stroke-width="1"></path>
+        </g>
+        <g stroke="var(--accent)" opacity="0.12">
+          <path d="M760,430 C900,360 1080,400 1140,510 C1200,620 1140,730 990,760 C840,790 700,730 670,620 C640,510 660,480 760,430 Z" stroke-width="1.2"></path>
+          <path d="M790,470 C900,415 1040,445 1090,530 C1140,615 1095,700 980,725 C865,750 755,703 730,617 C705,531 715,507 790,470 Z" stroke-width="1"></path>
+        </g>
+      </svg>
+    </div>
+    <div style="position:absolute;top:-15%;right:-8%;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(46,100,23,0.14),transparent 65%);animation:gsDrift2 20s ease-in-out infinite"></div>
+    <div style="position:absolute;bottom:-24%;left:-10%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(0,37,204,0.1),transparent 65%);animation:gsDrift2 24s ease-in-out infinite reverse"></div>
+    {settings.showCoords && (
+      <div class="gs-coords" style="position:absolute;inset:0;pointer-events:none;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;color:var(--muted);opacity:0.65">
+        <div style="position:absolute;top:22%;left:6%;display:flex;align-items:center;gap:8px;animation:gsFloat 7s ease-in-out infinite"><span style="width:6px;height:6px;border-radius:1.5px;background:var(--accent);animation:gsPulse 3s infinite"></span>-1.2921&deg; &middot; 36.8219&deg; NAIROBI</div>
+        <div style="position:absolute;top:30%;right:7%;animation:gsFloat 9s ease-in-out infinite 1s">EST &middot; TU KENYA</div>
+        <div style="position:absolute;bottom:30%;left:8%;animation:gsFloat 8s ease-in-out infinite 2s">VISION &middot; SMART &middot; GREEN <span style="animation:gsBlink 1.6s infinite">&#9646;</span></div>
+        <div style="position:absolute;bottom:22%;right:9%;display:flex;align-items:center;gap:8px;animation:gsFloat 10s ease-in-out infinite .5s"><span style="width:6px;height:6px;border-radius:1.5px;background:var(--emerald)"></span>0.0236&deg; &middot; 37.9062&deg; KENYA</div>
+      </div>
+    )}
+    <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto;width:100%">
+      <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--emerald);text-transform:uppercase;margin-bottom:18px">About GeoSpark</div>
+      <h1 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,6.4vw,84px);line-height:1.04;letter-spacing:-0.035em;font-weight:700;margin:0 0 22px;max-width:16ch">Engineering Kenya&rsquo;s future through <span style="background:linear-gradient(95deg,var(--accent),var(--emerald));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">spatial intelligence.</span></h1>
+      <p data-reveal="120" style="font-size:clamp(16px,1.6vw,19px);line-height:1.65;color:var(--muted);max-width:58ch;margin:0">Founded by two licensed land surveyors and an investment banker, GeoSpark Onestop Solution brings precision geospatial data, sustainable construction and smart planning under one roof.</p>
+    </div>
+  </header>
+
+  <!-- STORY + MISSION/VISION -->
+  <section id="story" style="padding:100px clamp(20px,4vw,56px);max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:start">
+    <div>
+      <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:16px">Our story</div>
+      <h2 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,3.6vw,46px);letter-spacing:-0.03em;font-weight:700;line-height:1.1;margin:0 0 22px">From boundary beacons to whole communities.</h2>
+      <p data-reveal="100" style="color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 16px">{settings.aboutStory1}</p>
+      <p data-reveal="140" style="color:var(--muted);font-size:16px;line-height:1.7;margin:0">{settings.aboutStory2}</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div data-reveal="0" class="gs-value-card" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:28px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="width:8px;height:8px;border-radius:2px;background:var(--accent)"></span><span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px">Mission</span></div>
+        <p style="font-size:15px;color:var(--muted);line-height:1.65;margin:0">{settings.missionText}</p>
+      </div>
+      <div data-reveal="80" class="gs-value-card" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:28px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="width:8px;height:8px;border-radius:2px;background:var(--emerald)"></span><span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px">Vision</span></div>
+        <p style="font-size:15px;color:var(--muted);line-height:1.65;margin:0">{settings.visionText}</p>
+      </div>
+      <div data-reveal="160" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        {settings.values.map((v) => (
+          <div style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:16px;padding:18px">
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;margin-bottom:4px">{v.title}</div>
+            <div style="font-size:12.5px;color:var(--muted)">{v.description}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- JOURNEY TIMELINE -->
+  <section style="position:relative;padding:100px clamp(20px,4vw,56px);overflow:hidden">
+    <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(46,100,23,0.06),rgba(0,37,204,0.05));border-top:1px solid var(--line);border-bottom:1px solid var(--line)"></div>
+    <div style="position:relative;max-width:1180px;margin:0 auto">
+      <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:16px">Journey</div>
+      <h2 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,3.6vw,46px);letter-spacing:-0.03em;font-weight:700;line-height:1.1;margin:0 0 50px">From founding to future.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border-left:1px solid var(--line)">
+        {settings.journey.map((j, i) => {
+          const blue = i >= 2;
+          const delay = [0, 80, 160, 240][i] ?? i * 80;
+          const pulse = blue ? `gsPulseB 3s infinite ${i === 2 ? '1s' : '1.5s'}` : `gsPulse 3s infinite ${i === 1 ? '.5s' : '0s'}`;
+          return (
+            <div data-reveal={delay} class={`gs-proc${blue ? ' gs-proc-em' : ''}`} style={`padding:0 28px 8px${i < 3 ? ';border-right:1px solid var(--line)' : ''}`}>
+              <div style={`width:10px;height:10px;border-radius:2.5px;background:${blue ? 'var(--emerald)' : 'var(--accent)'};margin-bottom:16px;animation:${pulse}`}></div>
+              <div class="gs-proc-num" style="font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px">{j.label}</div>
+              <div class="gs-proc-title" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;margin-bottom:8px">{j.title}</div>
+              <p style="font-size:13.5px;color:var(--muted);line-height:1.6;margin:0">{j.description}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" style="padding:100px clamp(20px,4vw,56px);max-width:1290px;margin:0 auto">
+    <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:16px">Leadership</div>
+    <h2 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,3.6vw,46px);letter-spacing:-0.03em;font-weight:700;line-height:1.1;margin:0 0 50px;max-width:22ch">The founding team.</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+      {team.map((member, i) => (
+        <div data-reveal={i * 80} class="gs-value-card" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px">
+          <img src={withBase(member.data.photo)} alt={member.data.name} width="96" height="96" style="width:96px;height:96px;border-radius:24px;object-fit:cover;object-position:top;border:1px solid var(--line);margin-bottom:22px" />
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;margin:0 0 4px">{member.data.name}</h3>
+          <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:14px">{member.data.role}</div>
+          <p style="font-size:14px;line-height:1.6;color:var(--muted);margin:0 0 16px">{member.data.bio}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            {member.data.tags.map((tag) => (
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)">{tag}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section style="padding:20px clamp(20px,4vw,56px) 100px;max-width:1180px;margin:0 auto">
+    <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--emerald);text-transform:uppercase;margin-bottom:16px">Technology</div>
+    <h2 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,3.6vw,46px);letter-spacing:-0.03em;font-weight:700;line-height:1.1;margin:0 0 40px">Field-to-finish stack.</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      {settings.techStack.map((t, i) => (
+        <span data-reveal={i * 30} class={`gs-chip${i >= 6 ? ' gs-chip-em' : ''}`} style={`padding:14px 26px;border-radius:16px;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;animation:gsFloat ${chipFloat[i % chipFloat.length]} ease-in-out infinite ${(i * 0.4).toFixed(1)}s`}>{t}</span>
+      ))}
+    </div>
+  </section>
+
+  <CtaBanner />
+  <Footer />
+</Layout>

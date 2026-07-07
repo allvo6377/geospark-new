@@ -1,0 +1,160 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+import { getEntry } from 'astro:content';
+
+const settings = (await getEntry('settings', 'site')).data;
+const phoneHref = settings.phone.replace(/\s+/g, '');
+---
+
+<Layout title="Contact | GeoSpark Onestop Solution" description="Tell us about your site. We respond within one working day, by email, phone or WhatsApp." active="Contact" showCta={false}>
+  <link slot="head" rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script slot="head" is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- HERO -->
+  <header style="position:relative;padding:150px clamp(20px,4vw,56px) 48px;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:0.5;mask-image:radial-gradient(ellipse 90% 80% at 50% 20%,black 30%,transparent 75%)"></div>
+    <div style="position:absolute;inset:-8%;animation:gsDrift 26s ease-in-out infinite">
+      <svg width="100%" height="100%" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+        <g stroke="var(--accent)" opacity="0.13">
+          <path d="M180,120 C320,60 520,90 600,180 C680,270 640,380 520,420 C400,460 240,430 180,330 C120,230 100,170 180,120 Z" stroke-width="1.2"></path>
+          <path d="M220,150 C330,100 490,125 555,195 C620,265 590,350 495,383 C400,416 275,392 225,312 C175,232 160,190 220,150 Z" stroke-width="1"></path>
+          <path d="M260,180 C340,140 460,160 510,212 C560,264 540,322 470,347 C400,372 310,353 272,295 C234,237 225,210 260,180 Z" stroke-width="0.9"></path>
+        </g>
+        <g stroke="var(--emerald)" opacity="0.1">
+          <path d="M820,300 C940,240 1080,270 1130,350 C1180,430 1130,520 1010,545 C890,570 780,525 755,445 C730,365 745,340 820,300 Z" stroke-width="1"></path>
+          <path d="M850,335 C950,285 1055,308 1092,368 C1129,428 1096,490 1010,508 C924,526 846,492 828,432 C810,372 820,355 850,335 Z" stroke-width="0.9"></path>
+        </g>
+      </svg>
+    </div>
+    <div style="position:absolute;top:-15%;right:-6%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(46,100,23,0.12),transparent 65%);animation:gsDrift2 20s ease-in-out infinite"></div>
+    <div style="position:absolute;bottom:-30%;left:-8%;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(0,37,204,0.09),transparent 65%);animation:gsDrift2 24s ease-in-out infinite reverse"></div>
+    {settings.showCoords && (
+      <div class="gs-coords" style="position:absolute;inset:0;pointer-events:none;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;color:var(--muted);opacity:0.65">
+        <div style="position:absolute;top:24%;left:6%;display:flex;align-items:center;gap:8px;animation:gsFloat 7s ease-in-out infinite"><span style="width:6px;height:6px;border-radius:1.5px;background:var(--accent);animation:gsPulse 3s infinite"></span>-1.2921&deg; &middot; 36.8219&deg; NAIROBI</div>
+        <div style="position:absolute;top:32%;right:7%;animation:gsFloat 9s ease-in-out infinite 1s">REPLY &lt; 24 HRS</div>
+        <div style="position:absolute;bottom:24%;left:8%;animation:gsFloat 8s ease-in-out infinite 2s">RTK FIX &middot; ONLINE <span style="animation:gsBlink 1.6s infinite">&#9646;</span></div>
+        <div style="position:absolute;bottom:18%;right:9%;display:flex;align-items:center;gap:8px;animation:gsFloat 10s ease-in-out infinite .5s"><span style="width:6px;height:6px;border-radius:1.5px;background:var(--emerald)"></span>WGS84 &middot; EPSG:4326</div>
+      </div>
+    )}
+    <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto">
+      <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--emerald);text-transform:uppercase;margin-bottom:18px">Contact</div>
+      <h1 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5.6vw,72px);line-height:1.04;letter-spacing:-0.035em;font-weight:700;margin:0 0 18px;max-width:18ch">Tell us about <span style="background:linear-gradient(95deg,var(--accent),var(--emerald));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">your site.</span></h1>
+      <p data-reveal="120" style="font-size:clamp(16px,1.6vw,18.5px);line-height:1.65;color:var(--muted);max-width:56ch;margin:0">We respond within one working day, by email, phone or WhatsApp, whichever you prefer.</p>
+    </div>
+  </header>
+
+  <!-- SPLIT: FORM + MAP -->
+  <section id="form" style="padding:32px clamp(20px,4vw,56px) 80px;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;align-items:start">
+    <!-- form card -->
+    <div data-reveal="0" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:24px;padding:32px">
+      <div id="gs-form" style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <input class="gs-field" id="f-name" placeholder="Your name" />
+          <input class="gs-field" id="f-phone" placeholder="Phone" />
+        </div>
+        <input class="gs-field" id="f-email" type="email" placeholder="Email" />
+        <select class="gs-field" id="f-service">
+          <option value="">What do you need?</option>
+          <option>Land survey / boundary</option>
+          <option>Drone mapping / GIS</option>
+          <option>Construction</option>
+          <option>Urban planning</option>
+          <option>Interior design</option>
+          <option>Landscaping</option>
+          <option>Property management</option>
+        </select>
+        <textarea class="gs-field" id="f-msg" rows="5" placeholder="Describe your project or parcel (location, size, timeline)…" style="resize:vertical"></textarea>
+        <button id="f-submit" data-magnetic="1" style="padding:15px 30px;border-radius:999px;border:none;background:linear-gradient(120deg,var(--accent),var(--emerald));color:#fff;font-family:'Instrument Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 12px 32px -8px rgba(46,100,23,0.55)">Send message</button>
+        <div style="font-size:12px;color:var(--muted);text-align:center">Or write directly: <a href={`mailto:${settings.email}`} style="color:var(--accent);font-weight:600;text-decoration:none">{settings.email}</a></div>
+      </div>
+      <div id="gs-sent" style="display:none;text-align:center;padding:40px 10px">
+        <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--emerald));display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+        </div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;margin-bottom:8px">Message ready to send</div>
+        <p style="font-size:14.5px;color:var(--muted);line-height:1.6;margin:0 0 20px">Your email app has opened with the message pre-filled. We&rsquo;ll reply within one working day.</p>
+        <button id="f-reset" style="padding:11px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer">Send another</button>
+      </div>
+    </div>
+
+    <!-- map + contact cards -->
+    <div data-reveal="120" style="display:flex;flex-direction:column;gap:16px">
+      <div id="gs-map" style="height:340px;border-radius:24px;border:1px solid var(--line);overflow:hidden;position:relative;z-index:1"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <a href={settings.whatsapp} class="gs-contact-card" style="background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:20px;text-decoration:none;color:var(--ink)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;margin-bottom:8px">WhatsApp</div>
+          <div style="font-size:14.5px;font-weight:600">{settings.phone}</div>
+        </a>
+        <a href={`tel:${phoneHref}`} class="gs-contact-card" style="background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:20px;text-decoration:none;color:var(--ink)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;margin-bottom:8px">Call</div>
+          <div style="font-size:14.5px;font-weight:600">{settings.phone}</div>
+        </a>
+        <a href={`mailto:${settings.email}`} class="gs-contact-card" style="background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:20px;text-decoration:none;color:var(--ink)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;margin-bottom:8px">Email</div>
+          <div style="font-size:14.5px;font-weight:600">{settings.email}</div>
+        </a>
+        <div style="background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:20px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;margin-bottom:8px">Office</div>
+          <div style="font-size:14.5px;font-weight:600">{settings.address}</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);margin-top:4px">-1.2921&deg; &middot; 36.8219&deg;</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+
+  <script is:inline define:vars={{ email: settings.email, mapStyle: settings.mapStyle }}>
+    (function () {
+      // --- enquiry form: builds a mailto and swaps in the success state ---
+      var form = document.getElementById('gs-form');
+      var sent = document.getElementById('gs-sent');
+      document.getElementById('f-submit').addEventListener('click', function () {
+        var val = function (id) { return (document.getElementById(id) || {}).value || ''; };
+        var service = val('f-service');
+        var body = encodeURIComponent(
+          'Name: ' + val('f-name') + '\nPhone: ' + val('f-phone') + '\nEmail: ' + val('f-email') +
+          '\nService: ' + service + '\n\n' + val('f-msg'));
+        var subject = encodeURIComponent('Project enquiry: ' + (service || 'GeoSpark'));
+        window.location.href = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
+        form.style.display = 'none';
+        sent.style.display = 'block';
+      });
+      document.getElementById('f-reset').addEventListener('click', function () {
+        sent.style.display = 'none';
+        form.style.display = 'flex';
+      });
+
+      // --- Leaflet office map ---
+      function tileFor(style) {
+        var t = {
+          Streets: { url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', attr: '&copy; OpenStreetMap contributors' },
+          Minimal: { url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', attr: '&copy; OpenStreetMap &copy; CARTO', sub: 'abcd' },
+          Terrain: { url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', attr: '&copy; OpenTopoMap (CC-BY-SA)', sub: 'abc' },
+        };
+        return t[style] || t.Streets;
+      }
+      var map = null;
+      function initMap(attempt) {
+        attempt = attempt || 0;
+        var el = document.getElementById('gs-map');
+        if (!el) return;
+        if (typeof L === 'undefined') {
+          if (attempt < 40) setTimeout(function () { initMap(attempt + 1); }, 250);
+          return;
+        }
+        if (map) return;
+        map = L.map(el, { scrollWheelZoom: false }).setView([-1.2921, 36.8219], 6);
+        var cfg = tileFor(mapStyle);
+        var opts = { attribution: cfg.attr, maxZoom: mapStyle === 'Terrain' ? 17 : 19 };
+        if (cfg.sub) opts.subdomains = cfg.sub;
+        L.tileLayer(cfg.url, opts).addTo(map);
+        var icon = L.divIcon({ className: '', html: '<div class="gs-marker"></div>', iconSize: [16, 16], iconAnchor: [8, 8] });
+        L.marker([-1.2921, 36.8219], { icon }).addTo(map)
+          .bindPopup('<strong>GeoSpark Onestop Solution</strong><br>Nairobi, Kenya');
+      }
+      initMap();
+    })();
+  </script>
+</Layout>
