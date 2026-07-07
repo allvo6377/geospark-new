@@ -7,6 +7,7 @@ content:
     label: Site Settings
     type: file
     path: src/content/settings/site.json
+    format: json
     fields:
       - { name: accent, label: Brand accent, type: select, options: { values: ["#2E6417", "#0025CC", "#7FBF4D"] } }
       - { name: glow, label: Mouse glow intensity (0-1), type: number }
@@ -71,6 +72,8 @@ content:
     label: Services
     type: collection
     path: src/content/services
+    format: json
+    extension: json
     view:
       fields: [title, number]
       sort: [order]
@@ -87,6 +90,8 @@ content:
     label: Projects
     type: collection
     path: src/content/projects
+    format: json
+    extension: json
     view:
       fields: [title, category, location]
       sort: [order]
@@ -103,6 +108,8 @@ content:
     label: FAQs
     type: collection
     path: src/content/faqs
+    format: json
+    extension: json
     view:
       fields: [question]
       sort: [order]
@@ -115,6 +122,8 @@ content:
     label: Team
     type: collection
     path: src/content/team
+    format: json
+    extension: json
     view:
       fields: [name, role]
       sort: [order]
@@ -130,6 +139,8 @@ content:
     label: Testimonials
     type: collection
     path: src/content/testimonials
+    format: json
+    extension: json
     view:
       fields: [name, subtitle]
       sort: [order]
